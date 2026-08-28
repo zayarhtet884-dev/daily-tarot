@@ -19,108 +19,30 @@
       text-align: center;
       box-sizing: border-box;
     }
-    h2 {
-      color: #f39c12;
-      margin-bottom: 20px;
-      font-size: 24px;
-    }
-    .wheel-container {
-      position: relative;
-      width: 180px;
-      height: 180px;
-      margin-bottom: 20px;
-    }
+    h2 { color: #f39c12; margin-bottom: 20px; font-size: 24px; }
+    .wheel-container { position: relative; width: 180px; height: 180px; margin-bottom: 20px; }
     .wheel {
-      width: 100%;
-      height: 100%;
-      border-radius: 50%;
+      width: 100%; height: 100%; border-radius: 50%;
       border: 6px solid #f39c12;
       background: conic-gradient(#e74c3c 0deg 90deg, #3498db 90deg 180deg, #9b59b6 180deg 270deg, #2ecc71 270deg 360deg);
       transition: transform 3s cubic-bezier(0.25, 0.1, 0.25, 1);
       box-shadow: 0 0 15px rgba(243, 156, 18, 0.4);
     }
     button {
-      padding: 12px 30px;
-      font-size: 18px;
-      font-weight: bold;
-      background-color: #f39c12;
-      color: #1a1a2e;
-      border: none;
-      border-radius: 25px;
-      cursor: pointer;
-      margin-top: 10px;
+      padding: 12px 30px; font-size: 18px; font-weight: bold;
+      background-color: #f39c12; color: #1a1a2e; border: none;
+      border-radius: 25px; cursor: pointer; margin-top: 10px;
       box-shadow: 0 4px 10px rgba(0,0,0,0.3);
-      transition: transform 0.2s, background-color 0.2s;
     }
-    button:active {
-      transform: scale(0.95);
-      background-color: #e67e22;
-    }
-    #result-container {
-      margin-top: 20px;
-      width: 100%;
-      max-width: 350px;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-    }
-    #result {
-      font-size: 18px;
-      font-weight: bold;
-      color: #f1c40f;
-      margin-bottom: 10px;
-      min-height: 27px;
-    }
-    #card-image {
-      width: 180px;
-      height: auto;
-      border-radius: 10px;
-      margin: 15px 0;
-      display: none;
-      box-shadow: 0 4px 15px rgba(0,0,0,0.6);
-      border: 2px solid #f39c12;
-    }
-    .details {
-      text-align: left;
-      background: rgba(255, 255, 255, 0.07);
-      padding: 15px;
-      border-radius: 12px;
-      display: none;
-      width: 100%;
-      box-sizing: border-box;
-      backdrop-filter: blur(5px);
-      border: 1px solid rgba(255,255,255,0.1);
-    }
-    .details p {
-      margin: 10px 0;
-      font-size: 14px;
-      line-height: 1.5;
-    }
-    .highlight {
-      color: #f1c40f;
-      font-weight: bold;
-    }
-    footer {
-      margin-top: 30px;
-      font-size: 13px;
-      color: #aaa;
-      border-top: 1px solid #333;
-      padding-top: 15px;
-      width: 100%;
-      max-width: 350px;
-    }
-    .visitor-count {
-      margin-top: 15px;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 5px;
-    }
-    .visitor-count p {
-      margin: 0;
-      font-size: 13px;
-      color: #aaa;
-    }
+    #result-container { margin-top: 20px; width: 100%; max-width: 350px; display: flex; flex-direction: column; align-items: center; }
+    #result { font-size: 18px; font-weight: bold; color: #f1c40f; margin-bottom: 10px; min-height: 27px; }
+    #card-image { width: 180px; height: auto; border-radius: 10px; margin: 15px 0; display: none; box-shadow: 0 4px 15px rgba(0,0,0,0.6); border: 2px solid #f39c12; }
+    .details { text-align: left; background: rgba(255, 255, 255, 0.07); padding: 15px; border-radius: 12px; display: none; width: 100%; box-sizing: border-box; backdrop-filter: blur(5px); border: 1px solid rgba(255,255,255,0.1); }
+    .details p { margin: 10px 0; font-size: 14px; line-height: 1.5; }
+    .highlight { color: #f1c40f; font-weight: bold; }
+    footer { margin-top: 30px; font-size: 13px; color: #aaa; border-top: 1px solid #333; padding-top: 15px; width: 100%; max-width: 350px; }
+    .visitor-count { margin-top: 15px; display: flex; flex-direction: column; align-items: center; gap: 5px; }
+    .visitor-count p { margin: 0; font-size: 13px; color: #aaa; }
   </style>
 </head>
 <body>
@@ -145,76 +67,134 @@
     </div>
   </div>
 
-  <!-- မန်တီးသူ နာမည် -->
   <footer>
     <p>Created with ❤️ by <b>ဇေယျာထက်</b></p>
   </footer>
 
-  <!-- ကြည့်ရှုသူဦးရေပြ ဘာဂျ် -->
   <div class="visitor-count">
     <p>ဝင်ကြည့်သူ အရေအတွက် -</p>
     <img src="https://hits.seeyoufarm.com/api/count/incr/badge.svg?url=https%3A%2F%2Fzayarhtet884-dev.github.io%2Fdaily-tarot&count_bg=%237952B3&title_bg=%23555555&icon=&icon_color=%23E7E7E7&title=views&edge_flat=false" alt="Visitor Count">
   </div>
 
   <script>
-    // Major Arcana 22 Cards
+    // Web Audio Context for Sound Effects
+    let audioCtx = null;
+
+    function initAudio() {
+      if (!audioCtx) {
+        audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+      }
+    }
+
+    // Wheel Spinning Tick Sound
+    function playSpinSound() {
+      initAudio();
+      let count = 0;
+      let maxTicks = 20;
+      let interval = 80;
+
+      function tick() {
+        if (count >= maxTicks) return;
+        
+        let osc = audioCtx.createOscillator();
+        let gain = audioCtx.createGain();
+        osc.type = 'triangle';
+        osc.frequency.setValueAtTime(400 + (count * 15), audioCtx.currentTime);
+        
+        gain.gain.setValueAtTime(0.05, audioCtx.currentTime);
+        gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 0.05);
+
+        osc.connect(gain);
+        gain.connect(audioCtx.destination);
+
+        osc.start();
+        osc.stop(audioCtx.currentTime + 0.05);
+
+        count++;
+        interval += 8; // Slower over time
+        setTimeout(tick, interval);
+      }
+      tick();
+    }
+
+    // Card Reveal Chime Sound
+    function playRevealSound() {
+      initAudio();
+      const notes = [523.25, 659.25, 783.99, 1046.50]; // C5, E5, G5, C6
+      notes.forEach((freq, index) => {
+        let osc = audioCtx.createOscillator();
+        let gain = audioCtx.createGain();
+        
+        osc.type = 'sine';
+        osc.frequency.setValueAtTime(freq, audioCtx.currentTime + (index * 0.1));
+
+        gain.gain.setValueAtTime(0.08, audioCtx.currentTime + (index * 0.1));
+        gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + (index * 0.1) + 0.4);
+
+        osc.connect(gain);
+        gain.connect(audioCtx.destination);
+
+        osc.start(audioCtx.currentTime + (index * 0.1));
+        osc.stop(audioCtx.currentTime + (index * 0.1) + 0.4);
+      });
+    }
+
     const majorArcana = [
-      { name: "0. The Fool", img: "https://upload.wikimedia.org/wikipedia/commons/9/90/RWS_Tarot_00_Fool.jpg", meaning: "အစသစ်၊ လွတ်လပ်မှု၊ စွန့်စားမှု", love: "အချစ်သစ်တွေ့ခြင်း သို့မဟုတ် လွတ်လပ်စွာချစ်ခြင်း", money: "အခွင့်အလမ်းသစ်များ ရောက်ရှိလာခြင်း", warning: "သတိမထားဘဲ မဆင်မခြင် မလုပ်ပါနှင့်", lucky: "အဖြူရောင် ဝတ်ဆင်ပါ" },
-      { name: "I. The Magician", img: "https://upload.wikimedia.org/wikipedia/commons/d/de/RWS_Tarot_01_Magician.jpg", meaning: "စွမ်းရည်၊ ဖန်တီးမှု၊ အောင်မြင်မှု", love: "ဆွဲဆောင်မှုရှိသော သံယောဇဉ်", money: "ဝင်ငွေတိုးပွားမည့် စိတ်ကူးသစ်များ", warning: "လှည့်ကွက်များကို သတိပြုပါ", lucky: "အဝါရောင် ဝတ်ဆင်ပါ" },
-      { name: "II. The High Priestess", img: "https://upload.wikimedia.org/wikipedia/commons/8/88/RWS_Tarot_02_High_Priestess.jpg", meaning: "ပင်ကိုအသိ၊ လျှို့ဝှက်ချက်၊ ပညာ", love: "စိတ်ချင်းဆက်နွှယ်မှု၊ လျှို့ဝှက်အချစ်", money: "အခြေအနေကို စောင့်ကြည့်ရမည့်အချိန်", warning: "စိတ်လှုပ်ရှားမှု လွန်ကဲခြင်းကို ဆင်ခြင်ပါ", lucky: "အပြာရောင် ဝတ်ဆင်ပါ" },
-      { name: "III. The Empress", img: "https://upload.wikimedia.org/wikipedia/commons/d/d2/RWS_Tarot_03_Empress.jpg", meaning: "ကြွယ်ဝမှု၊ မေတ္တာ၊ အောင်မြင်မှု", love: "နွေးထွေးသော မေတ္တာ သာယာမှု", money: "စီးပွားရေးနှင့် ငွေကြေး တိုးတက်မည်", warning: "အသုံးအစွဲ မလွန်ကဲပါစေနှင့်", lucky: "အစိမ်းရောင် ဝတ်ဆင်ပါ" },
-      { name: "IV. The Emperor", img: "https://upload.wikimedia.org/wikipedia/commons/c/c3/RWS_Tarot_04_Emperor.jpg", meaning: "ဩဇာအာဏာ၊ တည်ငြိမ်မှု၊ စည်းကမ်း", love: "ခိုင်မာသော ဆက်ဆံရေး", money: "ငွေကြေး တည်ငြိမ်အဆင်ပြေမည်", warning: "ခေါင်းမာလွန်းခြင်းကို ရှောင်ပါ", lucky: "အနီရောင် ဝတ်ဆင်ပါ" },
-      { name: "V. The Hierophant", img: "https://upload.wikimedia.org/wikipedia/commons/8/8d/RWS_Tarot_05_Hierophant.jpg", meaning: "လမ်းညွှန်မှု၊ အစဉ်အလာ၊ ပညာ", love: "လူကြီးစကားနားထောင်ရမည့် အချစ်", money: "တရားဝင် လုပ်ငန်းများမှ အကျိုးအမြတ်ရမည်", warning: "ယုံကြည်လွယ်ခြင်းကို သတိပြုပါ", lucky: "ခရမ်းရောင် ဝတ်ဆင်ပါ" },
-      { name: "VI. The Lovers", img: "https://upload.wikimedia.org/wikipedia/commons/3/3a/TheLovers.jpg", meaning: "ရွေးချယ်မှု၊ အချစ်၊ ညီညွတ်မှု", love: "စစ်မှန်သော မေတ္တာ၊ ဆုံးဖြတ်ချက်", money: "စတိုးတွဲလုပ်ငန်းများ အဆင်ပြေမည်", warning: "နှစ်ခွဖြစ်ခြင်းကို ဆင်ခြင်ပါ", lucky: "ပန်းရောင် ဝတ်ဆင်ပါ" },
-      { name: "VII. The Chariot", img: "https://upload.wikimedia.org/wikipedia/commons/9/9b/RWS_Tarot_07_Chariot.jpg", meaning: "ဇွဲ၊ အောင်မြင်မှု၊ ခရီးသွားရခြင်း", love: "အတားအဆီးများကို ကျော်ဖြတ်နိုင်မည်", money: "ကြိုးစားမှုကြောင့် အကျိုးခံစားရမည်", warning: "စိတ်မြန်လက်မြန် မလုပ်ပါနှင့်", lucky: "အနက်ရောင် ဝတ်ဆင်ပါ" },
-      { name: "VIII. Strength", img: "https://upload.wikimedia.org/wikipedia/commons/f/f5/RWS_Tarot_08_Strength.jpg", meaning: "သတ္တိ၊ အတ်တကိုထိန်းချုပ်နိုင်မှု", love: "သည်းခံမှုဖြင့် အနိုင်ယူနိုင်မည်", money: "အခက်အခဲများကို ကျော်ဖြတ်နိုင်မည်", warning: "ဒေါသကို ထိန်းချုပ်ပါ", lucky: "ရွှေရောင် ဝတ်ဆင်ပါ" },
-      { name: "IX. The Hermit", img: "https://upload.wikimedia.org/wikipedia/commons/4/4d/RWS_Tarot_09_Hermit.jpg", meaning: "တစ်ယောက်တည်းစဉ်းစားခြင်း၊ လမ်းပြ", love: "ခေတ္တ အနားယူစဉ်းစားရမည့်အချိန်", money: "ငွေကြေးသုံးစွဲမှု ဆင်ခြင်ပါ", warning: "အထီးကျန်မဆန်ပါစေနှင့်", lucky: "မီးခိုးရောင် ဝတ်ဆင်ပါ" },
-      { name: "X. Wheel of Fortune", img: "https://upload.wikimedia.org/wikipedia/commons/3/3c/RWS_Tarot_10_Wheel_of_Fortune.jpg", meaning: "ကံကြမ္မာပြောင်းလဲခြင်း၊ အခွင့်အရေး", love: "ကံဆုံမှုအသစ်များ ရောက်လာမည်", money: "ငွေဝင်လမ်း ပွင့်လာမည်", warning: "အတက်အကျကို ပြင်ဆင်ထားပါ", lucky: "လိမ္မော်ရောင် ဝတ်ဆင်ပါ" },
-      { name: "XI. Justice", img: "https://upload.wikimedia.org/wikipedia/commons/e/e0/RWS_Tarot_11_Justice.jpg", meaning: "တရားမျှတမှု၊ အမှန်တရား၊ ဆုံးဖြတ်ချက်", love: "မျှတသော ဆက်ဆံရေး", money: "စာချုပ်စာတမ်းများ သတိထားပါ", warning: "ဘက်လိုက်မှု မရှိပါစေနှင့်", lucky: "အစိမ်းရင့်ရောင် ဝတ်ဆင်ပါ" },
-      { name: "XII. The Hanged Man", img: "https://upload.wikimedia.org/wikipedia/commons/2/2b/RWS_Tarot_12_Hanged_Man.jpg", meaning: "စွန့်လွှတ်ခြင်း၊ ရှုထောင့်အသစ်", love: "အလျှော့ပေးရမည့် အချိန်", money: "ငွေကြေး ခေတ္တရပ်တန့်နေနိုင်သည်", warning: "အချိန်ဆွဲလွန်းခြင်းကို ရှောင်ပါ", lucky: "ရေပြာရောင် ဝတ်ဆင်ပါ" },
-      { name: "XIII. Death", img: "https://upload.wikimedia.org/wikipedia/commons/d/d7/RWS_Tarot_13_Death.jpg", meaning: "အပြောင်းအလဲကြီး၊ အဟောင်းပြီးဆုံးခြင်း", love: "မကောင်းသော အဆက်အသွယ်များ ပြီးဆုံးမည်", money: "ဝင်ငွေလမ်းကြောင်းဟောင်း ပိတ်ပြီး အသစ်ပွင့်မည်", warning: "အပြောင်းအလဲကို လက်မခံဘဲ မငြင်းဆန်ပါနှင့်", lucky: "အဖြူ သို့မဟုတ် အနက် ဝတ်ဆင်ပါ" },
-      { name: "XIV. Temperance", img: "https://upload.wikimedia.org/wikipedia/commons/f/f8/RWS_Tarot_14_Temperance.jpg", meaning: "မျှတမှု၊ စိတ်ရှည်မှု၊ ညှိနှိုင်းမှု", love: "အပေးအယူမျှသော အချစ်", money: "ငွေကြေး ထိန်းသိမ်းရောင်းဝယ်ပါ", warning: "လွန်ကဲစွာ မပြုမူပါနှင့်", lucky: "ခရမ်းနုရောင် ဝတ်ဆင်ပါ" },
-      { name: "XV. The Devil", img: "https://upload.wikimedia.org/wikipedia/commons/5/55/RWS_Tarot_15_Devil.jpg", meaning: "စွဲလန်းမှု၊ အတားအဆီး၊ တပ်မက်မှု", love: "သဝန်တိုမှု၊ ရူးသွပ်သော အချစ်", money: "လောင်းကစားနှင့် လိမ်လည်မှုကို သတိပြုပါ", warning: "မကောင်းသော အကျင့်များကို စွန့်လွှတ်ပါ", lucky: "အညိုရောင် ဝတ်ဆင်ပါ" },
-      { name: "XVI. The Tower", img: "https://upload.wikimedia.org/wikipedia/commons/5/53/RWS_Tarot_16_Tower.jpg", meaning: "ရုတ်တရက် အပြောင်းအလဲ၊ ရိုက်ခတ်မှု", love: "နားလည်မှုလွဲခြင်း သတိပြုပါ", money: "မမျှော်လင့်ဘဲ အသုံးစွဲထွက်မည်", warning: "ပေါ့ဆစွာ မနေပါနှင့်", lucky: "အနီရင့်ရောင် ဝတ်ဆင်ပါ" },
-      { name: "XVII. The Star", img: "https://upload.wikimedia.org/wikipedia/commons/d/db/RWS_Tarot_17_Star.jpg", meaning: "မျှော်လင့်ချက်၊ စိတ်ဓာတ်ခွန်အား၊ အနာဂတ်", love: "ကြည်နူးဖွယ် အချစ်အသစ်", money: "ငွေကြေး အခွင့်အလမ်းကောင်း ရမည်", warning: "စိတ်ကူးယဉ်မလွန်ပါစေနှင့်", lucky: "အပြာနုရောင် ဝတ်ဆင်ပါ" },
-      { name: "XVIII. The Moon", img: "https://upload.wikimedia.org/wikipedia/commons/7/7f/RWS_Tarot_18_Moon.jpg", meaning: "ဇဝေဇဝါဖြစ်ခြင်း၊ စိုးရိမ်မှု၊ လှည့်ကွက်", love: "မရေရာသော အခြေအနေ", money: "ငွေကြေးရင်းနှီးမှု သတိထားပါ", warning: "စိတ်အထင်နှင့် မဆုံးဖြတ်ပါနှင့်", lucky: "ငွေရောင် ဝတ်ဆင်ပါ" },
-      { name: "XIX. The Sun", img: "https://upload.wikimedia.org/wikipedia/commons/1/17/RWS_Tarot_19_Sun.jpg", meaning: "အောင်မြင်မှု၊ ပျော်ရွှင်မှု၊ အလင်းရောင်", love: "အလွန်သာယာ အဆင်ပြေမည်", money: "စီးပွားရေးနှင့် ဝင်ငွေတိုးမည်", warning: "အတ္တကြီးခြင်းကို ဆင်ခြင်ပါ", lucky: "အဝါရောင်/ရွှေရောင် ဝတ်ဆင်ပါ" },
-      { name: "XX. Judgement", img: "https://upload.wikimedia.org/wikipedia/commons/d/dd/RWS_Tarot_20_Judgement.jpg", meaning: "ဆုံးဖြတ်ချက်၊ ဆုလာဘ်၊ နိုးထမှု", love: "အမှန်တရားကို ရွေးချယ်ရမည်", money: "လုပ်ဆောင်ခဲ့သမျှ အကျိုးပေးမည်", warning: "အမှားများကို သင်ခန်းစာယူပါ", lucky: "ခရမ်းရောင် ဝတ်ဆင်ပါ" },
-      { name: "XXI. The World", img: "https://upload.wikimedia.org/wikipedia/commons/ff/ff/RWS_Tarot_21_World.jpg", meaning: "ပြီးပြည့်စုံမှု၊ အောင်မြင်မှု၊ ခရီးစဉ်", love: "စိတ်ချမ်းသာစရာ အိမ်ထောင်ရေး", money: "ပန်းတိုင်သို့ ရောက်ရှိမည်", warning: "မလိုလားအပ်သော မာနမထားပါနှင့်", lucky: "အစိမ်းရောင် ဝတ်ဆင်ပါ" }
+      { name: "0. The Fool", img: "https://sacred-texts.com/tarot/pkt/img/ar00.jpg", meaning: "အစသစ်၊ လွတ်လပ်မှု၊ စွန့်စားမှု", love: "အချစ်သစ်တွေ့ခြင်း သို့မဟုတ် လွတ်လပ်စွာချစ်ခြင်း", money: "အခွင့်အလမ်းသစ်များ ရောက်ရှိလာခြင်း", warning: "သတိမထားဘဲ မဆင်မခြင် မလုပ်ပါနှင့်", lucky: "အဖြူရောင် ဝတ်ဆင်ပါ" },
+      { name: "I. The Magician", img: "https://sacred-texts.com/tarot/pkt/img/ar01.jpg", meaning: "စွမ်းရည်၊ ဖန်တီးမှု၊ အောင်မြင်မှု", love: "ဆွဲဆောင်မှုရှိသော သံယောဇဉ်", money: "ဝင်ငွေတိုးပွားမည့် စိတ်ကူးသစ်များ", warning: "လှည့်ကွက်များကို သတိပြုပါ", lucky: "အဝါရောင် ဝတ်ဆင်ပါ" },
+      { name: "II. The High Priestess", img: "https://sacred-texts.com/tarot/pkt/img/ar02.jpg", meaning: "ပင်ကိုအသိ၊ လျှို့ဝှက်ချက်၊ ပညာ", love: "စိတ်ချင်းဆက်နွှယ်မှု၊ လျှို့ဝှက်အချစ်", money: "အခြေအနေကို စောင့်ကြည့်ရမည့်အချိန်", warning: "စိတ်လှုပ်ရှားမှု လွန်ကဲခြင်းကို ဆင်ခြင်ပါ", lucky: "အပြာရောင် ဝတ်ဆင်ပါ" },
+      { name: "III. The Empress", img: "https://sacred-texts.com/tarot/pkt/img/ar03.jpg", meaning: "ကြွယ်ဝမှု၊ မေတ္တာ၊ အောင်မြင်မှု", love: "နွေးထွေးသော မေတ္တာ သာယာမှု", money: "စီးပွားရေးနှင့် ငွေကြေး တိုးတက်မည်", warning: "အသုံးအစွဲ မလွန်ကဲပါစေနှင့်", lucky: "အစိမ်းရောင် ဝတ်ဆင်ပါ" },
+      { name: "IV. The Emperor", img: "https://sacred-texts.com/tarot/pkt/img/ar04.jpg", meaning: "ဩဇာအာဏာ၊ တည်ငြိမ်မှု၊ စည်းကမ်း", love: "ခိုင်မာသော ဆက်ဆံရေး", money: "ငွေကြေး တည်ငြိမ်အဆင်ပြေမည်", warning: "ခေါင်းမာလွန်းခြင်းကို ရှောင်ပါ", lucky: "အနီရောင် ဝတ်ဆင်ပါ" },
+      { name: "V. The Hierophant", img: "https://sacred-texts.com/tarot/pkt/img/ar05.jpg", meaning: "လမ်းညွှန်မှု၊ အစဉ်အလာ၊ ပညာ", love: "လူကြီးစကားနားထောင်ရမည့် အချစ်", money: "တရားဝင် လုပ်ငန်းများမှ အကျိုးအမြတ်ရမည်", warning: "ယုံကြည်လွယ်ခြင်းကို သတိပြုပါ", lucky: "ခရမ်းရောင် ဝတ်ဆင်ပါ" },
+      { name: "VI. The Lovers", img: "https://sacred-texts.com/tarot/pkt/img/ar06.jpg", meaning: "ရွေးချယ်မှု၊ အချစ်၊ ညီညွတ်မှု", love: "စစ်မှန်သော မေတ္တာ၊ ဆုံးဖြတ်ချက်", money: "စတိုးတွဲလုပ်ငန်းများ အဆင်ပြေမည်", warning: "နှစ်ခွဖြစ်ခြင်းကို ဆင်ခြင်ပါ", lucky: "ပန်းရောင် ဝတ်ဆင်ပါ" },
+      { name: "VII. The Chariot", img: "https://sacred-texts.com/tarot/pkt/img/ar07.jpg", meaning: "ဇွဲ၊ အောင်မြင်မှု၊ ခရီးသွားရခြင်း", love: "အတားအဆီးများကို ကျော်ဖြတ်နိုင်မည်", money: "ကြိုးစားမှုကြောင့် အကျိုးခံစားရမည်", warning: "စိတ်မြန်လက်မြန် မလုပ်ပါနှင့်", lucky: "အနက်ရောင် ဝတ်ဆင်ပါ" },
+      { name: "VIII. Strength", img: "https://sacred-texts.com/tarot/pkt/img/ar08.jpg", meaning: "သတ္တိ၊ အတ်တကိုထိန်းချုပ်နိုင်မှု", love: "သည်းခံမှုဖြင့် အနိုင်ယူနိုင်မည်", money: "အခက်အခဲများကို ကျော်ဖြတ်နိုင်မည်", warning: "ဒေါသကို ထိန်းချုပ်ပါ", lucky: "ရွှေရောင် ဝတ်ဆင်ပါ" },
+      { name: "IX. The Hermit", img: "https://sacred-texts.com/tarot/pkt/img/ar09.jpg", meaning: "တစ်ယောက်တည်းစဉ်းစားခြင်း၊ လမ်းပြ", love: "ခေတ္တ အနားယူစဉ်းစားရမည့်အချိန်", money: "ငွေကြေးသုံးစွဲမှု ဆင်ခြင်ပါ", warning: "အထီးကျန်မဆန်ပါစေနှင့်", lucky: "မီးခိုးရောင် ဝတ်ဆင်ပါ" },
+      { name: "X. Wheel of Fortune", img: "https://sacred-texts.com/tarot/pkt/img/ar10.jpg", meaning: "ကံကြမ္မာပြောင်းလဲခြင်း၊ အခွင့်အရေး", love: "ကံဆုံမှုအသစ်များ ရောက်လာမည်", money: "ငွေဝင်လမ်း ပွင့်လာမည်", warning: "အတက်အကျကို ပြင်ဆင်ထားပါ", lucky: "လိမ္မော်ရောင် ဝတ်ဆင်ပါ" },
+      { name: "XI. Justice", img: "https://sacred-texts.com/tarot/pkt/img/ar11.jpg", meaning: "တရားမျှတမှု၊ အမှန်တရား၊ ဆုံးဖြတ်ချက်", love: "မျှတသော ဆက်ဆံရေး", money: "စာချုပ်စာတမ်းများ သတိထားပါ", warning: "ဘက်လိုက်မှု မရှိပါစေနှင့်", lucky: "အစိမ်းရင့်ရောင် ဝတ်ဆင်ပါ" },
+      { name: "XII. The Hanged Man", img: "https://sacred-texts.com/tarot/pkt/img/ar12.jpg", meaning: "စွန့်လွှတ်ခြင်း၊ ရှုထောင့်အသစ်", love: "အလျှော့ပေးရမည့် အချိန်", money: "ငွေကြေး ခေတ္တရပ်တန့်နေနိုင်သည်", warning: "အချိန်ဆွဲလွန်းခြင်းကို ရှောင်ပါ", lucky: "ရေပြာရောင် ဝတ်ဆင်ပါ" },
+      { name: "XIII. Death", img: "https://sacred-texts.com/tarot/pkt/img/ar13.jpg", meaning: "အပြောင်းအလဲကြီး၊ အဟောင်းပြီးဆုံးခြင်း", love: "မကောင်းသော အဆက်အသွယ်များ ပြီးဆုံးမည်", money: "ဝင်ငွေလမ်းကြောင်းဟောင်း ပိတ်ပြီး အသစ်ပွင့်မည်", warning: "အပြောင်းအလဲကို လက်မခံဘဲ မငြင်းဆန်ပါနှင့်", lucky: "အဖြူ သို့မဟုတ် အနက် ဝတ်ဆင်ပါ" },
+      { name: "XIV. Temperance", img: "https://sacred-texts.com/tarot/pkt/img/ar14.jpg", meaning: "မျှတမှု၊ စိတ်ရှည်မှု၊ ညှိနှိုင်းမှု", love: "အပေးအယူမျှသော အချစ်", money: "ငွေကြေး ထိန်းသိမ်းရောင်းဝယ်ပါ", warning: "လွန်ကဲစွာ မပြုမူပါနှင့်", lucky: "ခရမ်းနုရောင် ဝတ်ဆင်ပါ" },
+      { name: "XV. The Devil", img: "https://sacred-texts.com/tarot/pkt/img/ar15.jpg", meaning: "စွဲလန်းမှု၊ အတားအဆီး၊ တပ်မက်မှု", love: "သဝန်တိုမှု၊ ရူးသွပ်သော အချစ်", money: "လောင်းကစားနှင့် လိမ်လည်မှုကို သတိပြုပါ", warning: "မကောင်းသော အကျင့်များကို စွန့်လွှတ်ပါ", lucky: "အညိုရောင် ဝတ်ဆင်ပါ" },
+      { name: "XVI. The Tower", img: "https://sacred-texts.com/tarot/pkt/img/ar16.jpg", meaning: "ရုတ်တရက် အပြောင်းအလဲ၊ ရိုက်ခတ်မှု", love: "နားလည်မှုလွဲခြင်း သတိပြုပါ", money: "မမျှော်လင့်ဘဲ အသုံးစွဲထွက်မည်", warning: "ပေါ့ဆစွာ မနေပါနှင့်", lucky: "အနီရင့်ရောင် ဝတ်ဆင်ပါ" },
+      { name: "XVII. The Star", img: "https://sacred-texts.com/tarot/pkt/img/ar17.jpg", meaning: "မျှော်လင့်ချက်၊ စိတ်ဓာတ်ခွန်အား၊ အနာဂတ်", love: "ကြည်နူးဖွယ် အချစ်အသစ်", money: "ငွေကြေး အခွင့်အလမ်းကောင်း ရမည်", warning: "စိတ်ကူးယဉ်မလွန်ပါစေနှင့်", lucky: "အပြာနုရောင် ဝတ်ဆင်ပါ" },
+      { name: "XVIII. The Moon", img: "https://sacred-texts.com/tarot/pkt/img/ar18.jpg", meaning: "ဇဝေဇဝါဖြစ်ခြင်း၊ စိုးရိမ်မှု၊ လှည့်ကွက်", love: "မရေရာသော အခြေအနေ", money: "ငွေကြေးရင်းနှီးမှု သတိထားပါ", warning: "စိတ်အထင်နှင့် မဆုံးဖြတ်ပါနှင့်", lucky: "ငွေရောင် ဝတ်ဆင်ပါ" },
+      { name: "XIX. The Sun", img: "https://sacred-texts.com/tarot/pkt/img/ar19.jpg", meaning: "အောင်မြင်မှု၊ ပျော်ရွှင်မှု၊ အလင်းရောင်", love: "အလွန်သာယာ အဆင်ပြေမည်", money: "စီးပွားရေးနှင့် ဝင်ငွေတိုးမည်", warning: "အတ္တကြီးခြင်းကို ဆင်ခြင်ပါ", lucky: "အဝါရောင်/ရွှေရောင် ဝတ်ဆင်ပါ" },
+      { name: "XX. Judgement", img: "https://sacred-texts.com/tarot/pkt/img/ar20.jpg", meaning: "ဆုံးဖြတ်ချက်၊ ဆုလာဘ်၊ နိုးထမှု", love: "အမှန်တရားကို ရွေးချယ်ရမည်", money: "လုပ်ဆောင်ခဲ့သမျှ အကျိုးပေးမည်", warning: "အမှားများကို သင်ခန်းစာယူပါ", lucky: "ခရမ်းရောင် ဝတ်ဆင်ပါ" },
+      { name: "XXI. The World", img: "https://sacred-texts.com/tarot/pkt/img/ar21.jpg", meaning: "ပြီးပြည့်စုံမှု၊ အောင်မြင်မှု၊ ခရီးစဉ်", love: "စိတ်ချမ်းသာစရာ အိမ်ထောင်ရေး", money: "ပန်းတိုင်သို့ ရောက်ရှိမည်", warning: "မလိုလားအပ်သော မာနမထားပါနှင့်", lucky: "အစိမ်းရောင် ဝတ်ဆင်ပါ" }
     ];
 
-    // Minor Arcana 56 Cards (Wands, Cups, Swords, Pentacles)
     const suits = [
-      { name: "wands", myName: "ဒုတ် (Wands - စိတ်အားထက်သန်မှု/အလုပ်)", color: "အနီ/အဝါရောင်" },
-      { name: "cups", myName: "ခွက် (Cups - ခံစားချက်/အချစ်)", color: "အပြာရောင်" },
-      { name: "swords", myName: "ဓား (Swords - အတွေး/အကြံဉာဏ်)", color: "မီးခိုး/အဖြူရောင်" },
-      { name: "pentacles", myName: "ဒင်္ဂါး (Pentacles - ငွေကြေး/ပစ္စည်း)", color: "အစိမ်း/ရွှေရောင်" }
+      { name: "wands", prefix: "wa", myName: "ဒုတ် (Wands - စိတ်အားထက်သန်မှု/အလုပ်)", color: "အနီ/အဝါရောင်" },
+      { name: "cups", prefix: "cu", myName: "ခွက် (Cups - ခံစားချက်/အချစ်)", color: "အပြာရောင်" },
+      { name: "swords", prefix: "sw", myName: "ဓား (Swords - အတွေး/အကြံဉာဏ်)", color: "မီးခိုး/အဖြူရောင်" },
+      { name: "pentacles", prefix: "pe", myName: "ဒင်္ဂါး (Pentacles - ငွေကြေး/ပစ္စည်း)", color: "အစိမ်း/ရွှေရောင်" }
     ];
 
     const ranks = [
-      { rank: "ace", displayName: "Ace", meaning: "အစသစ်၊ အခွင့်အလမ်း၊ စွမ်းအင်", love: "အချစ်သစ် သို့မဟုတ် စိတ်လှုပ်ရှားဖွယ်ရာ အစပြုမှု", money: "ဝင်ငွေလမ်းကြောင်းအသစ် ပွင့်ခြင်း", warning: "အခွင့်အလမ်းကို မလွတ်ပါစေနှင့်" },
-      { rank: "2", displayName: "2", meaning: "ပူးပေါင်းဆောင်ရွက်မှု၊ ရွေးချယ်မှု၊ မျှတမှု", love: "နားလည်မှုရှိသော ဆက်ဆံရေး", money: "အပေးအယူ မျှတစွာ လုပ်ဆောင်နိုင်မည်", warning: "ဒွိဟဖြစ်မနေပါနှင့်" },
-      { rank: "3", displayName: "3", meaning: "တိုးတက်မှု၊ အောင်မြင်မှု၊ အသင်းအဖွဲ့", love: "မိတ်ဆွေများမှတစ်ဆင့် အချစ်တွေ့ခြင်း", money: "စုပေါင်းလုပ်ငန်းများ အဆင်ပြေမည်", warning: "တတိယလူ သတိထားပါ" },
-      { rank: "4", displayName: "4", meaning: "တည်ငြိမ်မှု၊ ခိုင်မာမှု၊ စောင့်ဆိုင်းမှု", love: "တည်ငြိမ်သော်လည်း ငြီးငွေ့ဖွယ် ဖြစ်နိုင်သည်", money: "ငွေကြေး သက်သေရှိစွာ ထိန်းသိမ်းထားနိုင်မည်", warning: "ပြောင်းလဲမှုကို ကြောက်မနေပါနှင့်" },
-      { rank: "5", displayName: "5", meaning: "စိန်ခေါ်မှု၊ စိန်ခေါ်မှုနှင့် အပြိုင်အဆိုင်", love: "နားလည်မှုလွဲမှားခြင်း စကားများခြင်း", money: "ငွေကြေး အကျပ်အတည်း မမျှော်လင့်ဘဲ ကြုံရနိုင်သည်", warning: "ဒေါသဖြင့် ဆုံးဖြတ်ခြင်း ရှောင်ပါ" },
-      { rank: "6", displayName: "6", meaning: "အောင်မြင်မှု၊ ကူညီထောက်ပံ့မှု၊ အေးချမ်းမှု", love: "ပြန်လည်ပြေလည်ခြင်း၊ ကြင်နာမှု ရရှိခြင်း", money: "အကူအညီ ရရှိမည်၊ အကြွေးပြန်ရမည်", warning: "အတိတ်မှာ သောင်တင်မနေပါနှင့်" },
-      { rank: "7", displayName: "7", meaning: "ကြိုးစားမှု၊ စိစစ်မှု၊ သတိထားရမည့်အချိန်", love: "သံသယဖြစ်ဖွယ် အခြေအနေများ", money: "ရင်းနှီးမြှုပ်နှံမှုကို ပြန်လည်စိစစ်ပါ", warning: "မသမာသူများကို သတိထားပါ" },
-      { rank: "8", displayName: "8", meaning: "မြန်ဆန်မှု၊ အပြောင်းအလဲ၊ အကန့်အသတ်", love: "သတင်းကောင်း ရောက်ရှိလာမည်", money: "ငွေကြေး အမြန်ဝင်လာမည် သို့မဟုတ် ထွက်မည်", warning: "ကိုယ့်ကိုယ်ကို ပိတ်လှောင်မထားပါနှင့်" },
-      { rank: "9", displayName: "9", meaning: "ပြည့်စုံမှု၊ ခံစစ်၊ စိုးရိမ်ပူပန်မှု", love: "ကိုယ့်ကိုယ်ကို ယုံကြည်မှုရှိပါ", money: "ငွေကြေး တောင့်တင်းအဆင်ပြေမည်", warning: "စိတ်ပူပန်မှု လွန်ကဲခြင်းကို ဆင်ခြင်ပါ" },
+      { rank: "ac", displayName: "Ace", meaning: "အစသစ်၊ အခွင့်အလမ်း၊ စွမ်းအင်", love: "အချစ်သစ် သို့မဟုတ် စိတ်လှုပ်ရှားဖွယ်ရာ အစပြုမှု", money: "ဝင်ငွေလမ်းကြောင်းအသစ် ပွင့်ခြင်း", warning: "အခွင့်အလမ်းကို မလွတ်ပါစေနှင့်" },
+      { rank: "02", displayName: "2", meaning: "ပူးပေါင်းဆောင်ရွက်မှု၊ ရွေးချယ်မှု၊ မျှတမှု", love: "နားလည်မှုရှိသော ဆက်ဆံရေး", money: "အပေးအယူ မျှတစွာ လုပ်ဆောင်နိုင်မည်", warning: "ဒွိဟဖြစ်မနေပါနှင့်" },
+      { rank: "03", displayName: "3", meaning: "တိုးတက်မှု၊ အောင်မြင်မှု၊ အသင်းအဖွဲ့", love: "မိတ်ဆွေများမှတစ်ဆင့် အချစ်တွေ့ခြင်း", money: "စုပေါင်းလုပ်ငန်းများ အဆင်ပြေမည်", warning: "တတိယလူ သတိထားပါ" },
+      { rank: "04", displayName: "4", meaning: "တည်ငြိမ်မှု၊ ခိုင်မာမှု၊ စောင့်ဆိုင်းမှု", love: "တည်ငြိမ်သော်လည်း ငြီးငွေ့ဖွယ် ဖြစ်နိုင်သည်", money: "ငွေကြေး သက်သေရှိစွာ ထိန်းသိမ်းထားနိုင်မည်", warning: "ပြောင်းလဲမှုကို ကြောက်မနေပါနှင့်" },
+      { rank: "05", displayName: "5", meaning: "စိန်ခေါ်မှု၊ စိန်ခေါ်မှုနှင့် အပြိုင်အဆိုင်", love: "နားလည်မှုလွဲမှားခြင်း စကားများခြင်း", money: "ငွေကြေး အကျပ်အတည်း မမျှော်လင့်ဘဲ ကြုံရနိုင်သည်", warning: "ဒေါသဖြင့် ဆုံးဖြတ်ခြင်း ရှောင်ပါ" },
+      { rank: "06", displayName: "6", meaning: "အောင်မြင်မှု၊ ကူညီထောက်ပံ့မှု၊ အေးချမ်းမှု", love: "ပြန်လည်ပြေလည်ခြင်း၊ ကြင်နာမှု ရရှိခြင်း", money: "အကူအညီ ရရှိမည်၊ အကြွေးပြန်ရမည်", warning: "အတိတ်မှာ သောင်တင်မနေပါနှင့်" },
+      { rank: "07", displayName: "7", meaning: "ကြိုးစားမှု၊ စိစစ်မှု၊ သတိထားရမည့်အချိန်", love: "သံသယဖြစ်ဖွယ် အခြေအနေများ", money: "ရင်းနှီးမြှုပ်နှံမှုကို ပြန်လည်စိစစ်ပါ", warning: "မသမာသူများကို သတိထားပါ" },
+      { rank: "08", displayName: "8", meaning: "မြန်ဆန်မှု၊ အပြောင်းအလဲ၊ အကန့်အသတ်", love: "သတင်းကောင်း ရောက်ရှိလာမည်", money: "ငွေကြေး အမြန်ဝင်လာမည် သို့မဟုတ် ထွက်မည်", warning: "ကိုယ့်ကိုယ်ကို ပိတ်လှောင်မထားပါနှင့်" },
+      { rank: "09", displayName: "9", meaning: "ပြည့်စုံမှု၊ ခံစစ်၊ စိုးရိမ်ပူပန်မှု", love: "ကိုယ့်ကိုယ်ကို ယုံကြည်မှုရှိပါ", money: "ငွေကြေး တောင့်တင်းအဆင်ပြေမည်", warning: "စိတ်ပူပန်မှု လွန်ကဲခြင်းကို ဆင်ခြင်ပါ" },
       { rank: "10", displayName: "10", meaning: "ဝန်ထုပ်ဝန်ပိုး၊ ပြီးပြည့်စုံမှု၊ အဆုံးသတ်", love: "တာဝန်ကြီးမားခြင်း သို့မဟုတ် သာယာသောအိမ်ထောင်ရေး", money: "အပြည့်အဝ အောင်မြင်မည် သို့မဟုတ် ဖိအားများမည်", warning: "ဝန်ထုပ်ဝန်ပိုးများ ပေါ့ပါစေ" },
-      { rank: "page", displayName: "Page", meaning: "သတင်းစကား၊ စိတ်အားထက်သန်မှု၊ လေ့လာမှု", love: "သတင်းကောင်း ရရှိခြင်း၊ စိတ်လှုပ်ရှားဖွယ်အချစ်", money: "သင်ယူမှုမှတစ်ဆင့် ငွေဝင်မည်", warning: "မရင့်ကျက်သော ပြုမူမှုများ ရှောင်ပါ" },
-      { rank: "knight", displayName: "Knight", meaning: "လှုပ်ရှားမှု၊ မြန်ဆန်မှု၊ စွန့်စားမှု", love: "တက်ကြွသော ချစ်သူ၊ ရုတ်တရက် အချစ်", money: "ရည်မှန်းချက်ဆီ အမြန်သွားနိုင်မည်", warning: "မဆင်မခြင် သွားလာလှုပ်ရှားမှု ရှောင်ပါ" },
-      { rank: "queen", displayName: "Queen", meaning: "ဂရုစိုက်မှု၊ ပင်ကိုအသိ၊ ကြွယ်ဝမှု", love: "နွေးထွေးသော မေတ္တာ၊ ဂရုစိုက်မှု", money: "ငွေကြေး စီမံခန့်ခွဲမှု ကောင်းမွန်မည်", warning: "စိတ်ခံစားချက် လွန်ကဲခြင်းကို ထိန်းပါ" },
-      { rank: "king", displayName: "King", meaning: "ခေါင်းဆောင်မှု၊ ထိန်းချုပ်မှု၊ အောင်မြင်မှု", love: "ရင့်ကျက်သော အချစ်၊ တည်ငြိမ်မှု", money: "စီးပွားရေး ဦးဆောင်နိုင်မည်", warning: "အာဏာပြခြင်းကို လျှော့ပါ" }
+      { rank: "pa", displayName: "Page", meaning: "သတင်းစကား၊ စိတ်အားထက်သန်မှု၊ လေ့လာမှု", love: "သတင်းကောင်း ရရှိခြင်း၊ စိတ်လှုပ်ရှားဖွယ်အချစ်", money: "သင်ယူမှုမှတစ်ဆင့် ငွေဝင်မည်", warning: "မရင့်ကျက်သော ပြုမူမှုများ ရှောင်ပါ" },
+      { rank: "kn", displayName: "Knight", meaning: "လှုပ်ရှားမှု၊ မြန်ဆန်မှု၊ စွန့်စားမှု", love: "တက်ကြွသော ချစ်သူ၊ ရုတ်တရက် အချစ်", money: "ရည်မှန်းချက်ဆီ အမြန်သွားနိုင်မည်", warning: "မဆင်မခြင် သွားလာလှုပ်ရှားမှု ရှောင်ပါ" },
+      { rank: "qu", displayName: "Queen", meaning: "ဂရုစိုက်မှု၊ ပင်ကိုအသိ၊ ကြွယ်ဝမှု", love: "နွေးထွေးသော မေတ္တာ၊ ဂရုစိုက်မှု", money: "ငွေကြေး စီမံခန့်ခွဲမှု ကောင်းမွန်မည်", warning: "စိတ်ခံစားချက် လွန်ကဲခြင်းကို ထိန်းပါ" },
+      { rank: "ki", displayName: "King", meaning: "ခေါင်းဆောင်မှု၊ ထိန်းချုပ်မှု၊ အောင်မြင်မှု", love: "ရင့်ကျက်သော အချစ်၊ တည်ငြိမ်မှု", money: "စီးပွားရေး ဦးဆောင်နိုင်မည်", warning: "အာဏာပြခြင်းကို လျှော့ပါ" }
     ];
 
-    // Combine All 78 Cards
     let tarotCards = [...majorArcana];
 
     suits.forEach(suit => {
+      let suitCapital = suit.name.charAt(0).toUpperCase() + suit.name.slice(1);
       ranks.forEach(rank => {
-        let cardTitle = `${rank.displayName} of ${suit.name.charAt(0).toUpperCase() + suit.name.slice(1)}`;
-        let imgUrl = `https://raw.githubusercontent.com/fabiocalcinaro/tarot-cards/master/cards/${suit.name}-${rank.rank}.jpg`;
+        let cardTitle = `${rank.displayName} of ${suitCapital}`;
+        let imgUrl = `https://sacred-texts.com/tarot/pkt/img/${suit.prefix}${rank.rank}.jpg`;
         
         tarotCards.push({
           name: `${cardTitle} (${suit.myName})`,
@@ -231,6 +211,8 @@
     let currentRotation = 0;
 
     function drawCard() {
+      playSpinSound(); // Start wheel sound
+
       const wheel = document.getElementById('wheel');
       const result = document.getElementById('result');
       const cardImg = document.getElementById('card-image');
@@ -240,11 +222,13 @@
       cardImg.style.display = "none";
       cardDetails.style.display = "none";
 
-      const randomDegree = Math.floor(Math.random() * 360) + 1440; // Spin at least 4 full rounds
+      const randomDegree = Math.floor(Math.random() * 360) + 1440;
       currentRotation += randomDegree;
       wheel.style.transform = `rotate(${currentRotation}deg)`;
 
       setTimeout(() => {
+        playRevealSound(); // Play reveal chime sound
+
         const randomIndex = Math.floor(Math.random() * tarotCards.length);
         const card = tarotCards[randomIndex];
 
