@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="my">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Daily Tarot Card</title>
+  <style>
+    body {
+      background-color: #1a1a2e;
+      color: #fff;
+      font-family: sans-serif;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+      margin: 0;
+      padding: 20px 10px;
+      text-align: center;
+    }
+
+    .wheel-container {
+      position: relative;
+      width: 140px;
+      height: 140px;
+      margin: 10px 0;
+    }
+
+    .wheel {
+      width: 100%;
+      height: 100%;
+      border-radius: 50%;
+      border: 5px solid #f39c12;
+      box-sizing: border-box;
+      background: conic-gradient(#8e44ad 0deg 90deg, #3498db 90deg 180deg, #e74c3c 180deg 270deg, #2ecc71 270deg 360deg);
+      transition: transform 3s cubic-bezier(0.15, 0.9, 0.15, 1);
+    }
+
+    button {
+      background-color: #f39c12;
+      color: #000;
+      border: none;
+      padding: 10px 20px;
+      font-size: 16px;
+      font-weight: bold;
+      border-radius: 20px;
+      cursor: pointer;
+    }
+
+    #result-container {
+      margin-top: 15px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      max-width: 350px;
+    }
+
+    #card-image {
+      width: 150px;
+      height: 260px;
+      border-radius: 10px;
+      border: 2px solid #f1c40f;
+      margin: 10px 0;
+      display: none;
+      box-shadow: 0 4px 15px rgba(241, 196, 15, 0.4);
+    }
+
+    #result {
+      font-size: 18px;
+      font-weight: bold;
+      color: #f1c40f;
+    }
+
+    .details-card {
+      display: none;
+      background-color: #16213e;
+      border: 1px solid #f39c12;
+      border-radius: 12px;
+      padding: 15px;
+      text-align: left;
+      font-size: 14px;
+      line-height: 1.6;
+      margin-top: 10px;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.5);
+    }
+
+    .details-card p {
+      margin: 6px 0;
+    }
+
+    .highlight {
+      color: #f1c40f;
+      font-weight: bold;
+    }
+
+    footer {
+      margin-top: 30px;
+      font-size: 13px;
+      color: #aaa;
+      border-top: 1px solid #333;
+      padding-top: 10px;
+      width: 100%;
+      max-width: 350px;
+    }
+  </style>
+</head>
+<body>
+
+  <h2>✨ ဒီနေ့အတွက် Tarot ✨</h2>
+  
+  <div class="wheel-container">
+    <div class="wheel" id="wheel"></div>
+  </div>
+
+  <button onclick="drawCard()">ကတ်ဆွဲမည်</button>
+
+  <div id="result-container">
+    <div id="result"></div>
+    <img id="card-image" src="" alt="Tarot Card">
+    
+    <div id="card-details" class="details-card">
+      <p><span class="highlight">✨ အဓိပ္ပာယ်အတိုချုပ်:</span> <span id="meaning"></span></p>
+      <p><span class="highlight">❤️ အချစ်ရေး:</span> <span id="love"></span></p>
+      <p><span class="highlight">💰 ငွေကြေး/ကံကောင်းမှု:</span> <span id="money"></span></p>
+      <p><span class="highlight">⚠️ သတိထားရန်:</span> <span id="warning"></span></p>
+      <p><span class="highlight">🍀 အဆောင်/ယတြာ:</span> <span id="lucky"></span></p>
+    </div>
+  </div>
+
+  <!-- ဖန်တီးသူ နာမည် -->
+  <footer>
+    <p>Created with ❤️ by <b>ဇေယျာထက်</b></p>
+  </footer>
+
+  <script>
+    const tarotCards = [
+      {
+        name: "0. The Fool",
+        img: "https://upload.wikimedia.org/wikipedia/commons/9/90/RWS_Tarot_00_Fool.jpg",
+        meaning: "အစသစ်၊ လွတ်လပ်မှု၊ စွန့်စားမှု။",
+        love: "အချစ်သစ်တွေ့နိုင် သို့မဟုတ် လွတ်လပ်စွာ ပျော်ရွှင်ရမည့်အချိန်။",
+        money: "အခွင့်အလမ်းသစ်များ ရရှိမည်၊ ငွေကြေးစွန့်စားမှု မလုပ်ပါနှင့်။",
+        warning: "မဆင်မခြင် ဆုံးဖြတ်ချက်များ ချမိခြင်းမှ သတိပြုပါ။",
+        lucky: "အဖြူရောင် ဝတ်ဆင်ပါ၊ သစ်ပင်စိုက်ပါ။"
+      },
+      {
+        name: "I. The Magician",
+        img: "https://upload.wikimedia.org/wikipedia/commons/d/de/RWS_Tarot_01_Magician.jpg",
+        meaning: "ဖန်တီးနိုင်စွမ်း၊ အခွင့်အရေး၊ အရည်အချင်း။",
+        love: "မိမိဘက်မှ စတင်စကားပြောရင် အဆင်ပြေမည့်အချိန်။",
+        money: "ကြိုးစားသလောက် ငွေကြေးအကျိုးအမြတ် ရရှိမည်။",
+        warning: "လှည့်ကွက်များနှင့် လိမ်လည်မှုများကို သတိထားပါ။",
+        lucky: "စာရေးကိရိယာ သို့မဟုတ် ဘောပင်တစ်ချောင်း ဆောင်ပါ။"
+      },
+      {
+        name: "XIII. Death",
+        img: "https://upload.wikimedia.org/wikipedia/commons/d/d7/RWS_Tarot_13_Death.jpg",
+        meaning: "အပြောင်းအလဲကြီး၊ အဟောင်းပြီးဆုံး၍ အသစ်စခြင်း။",
+        love: "မကောင်းသော ဆက်ဆံရေးများ ပြီးဆုံးပြီး အသစ်စရမည်။",
+        money: "ဝင်ငွေလမ်းကြောင်းဟောင်း ပိတ်ပြီး လမ်းကြောင်းသစ် ပွင့်မည်။",
+        warning: "အပြောင်းအလဲကို လက်မခံဘဲ မဖက်တွယ်ထားပါနှင့်။",
+        lucky: "အိမ်က ပစ္စည်းဟောင်းများ စွန့်ပစ်ပါ၊ အနက်ရောင် ဝတ်ဆင်ပါ။"
+      },
+      {
+        name: "XIX. The Sun",
+        img: "https://upload.wikimedia.org/wikipedia/commons/1/17/RWS_Tarot_19_Sun.jpg",
+        meaning: "အောင်မြင်မှု၊ ပျော်ရွှင်မှု၊ အလင်းရောင်။",
+        love: "အချစ်ရေး အလွန်သာယာ အဆင်ပြေမည်။",
+        money: "စီးပွားရေး အဆင်ပြေပြီး ဝင်ငွေကောင်းမည်။",
+        warning: "အတ္တကြီးခြင်းနှင့် မာနတက်ခြင်းကို ဆင်ခြင်ပါ။",
+        lucky: "အဝါရောင်/ရွှေရောင် ဝတ်ဆင်ပါ၊ ဘုရားမှာ ပန်းဝါ လှူပါ။"
+      }
+    ];
+
+    let currentRotation = 0;
+
+    function drawCard() {
+      const wheel = document.getElementById('wheel');
+      const result = document.getElementById('result');
+      const cardImg = document.getElementById('card-image');
+      const cardDetails = document.getElementById('card-details');
+      
+      result.innerText = "ကတ်ရွေးချယ်နေသည်...";
+      cardImg.style.display = "none";
+      cardDetails.style.display = "none";
+      
+      const randomDegree = Math.floor(Math.random() * 360) + 1800; 
+      currentRotation += randomDegree;
+      wheel.style.transform = `rotate(${currentRotation}deg)`;
+
+      setTimeout(() => {
+        const randomIndex = Math.floor(Math.random() * tarotCards.length);
+        const card = tarotCards[randomIndex];
+        
+        result.innerText = "ကျရောက်သောကတ် - " + card.name;
+        cardImg.src = card.img;
+        cardImg.style.display = "block";
+
+        document.getElementById('meaning').innerText = card.meaning;
+        document.getElementById('love').innerText = card.love;
+        document.getElementById('money').innerText = card.money;
+        document.getElementById('warning').innerText = card.warning;
+        document.getElementById('lucky').innerText = card.lucky;
+        
+        cardDetails.style.display = "block";
+      }, 3000);
+    }
+  </script>
+</body>
+</html>
